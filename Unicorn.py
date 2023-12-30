@@ -1,17 +1,20 @@
 import UnicornPy
 import numpy as np
 
+'''
+This class is a wrapper for the UnicornPy library. It provides a static method to get a sample of duration from the Unicorn device.
+'''
 class Unicorn:
-    def __init__(self):
+    @staticmethod
+    def getSample(duration):
         deviceList = UnicornPy.GetAvailableDevices(True)
         if len(deviceList) <= 0 or deviceList is None:
             raise Exception("No device available.Please pair with a Unicorn first.")
-        self.device = UnicornPy.Unicorn(deviceList[0])
+        device = UnicornPy.Unicorn(deviceList[0])
 
-    def getSample(self, duration):
         frameLength = 1
-        self.device.StartAcquisition(True)
-        numberOfAcquiredChannels = self.device.GetNumberOfAcquiredChannels()
+        device.StartAcquisition(True)
+        numberOfAcquiredChannels = device.GetNumberOfAcquiredChannels()
 
         # Allocate memory for the acquisition buffer.
         receiveBufferBufferLength = frameLength * duration * numberOfAcquiredChannels * 4
@@ -21,10 +24,10 @@ class Unicorn:
 
         # Receives the configured number of samples from the Unicorn device and writes it to the acquisition buffer.
         for call in range(0, numberOfDataCalls):
-            self.device.GetData(frameLength ,receiveBuffer,receiveBufferBufferLength)
+            device.GetData(frameLength ,receiveBuffer,receiveBufferBufferLength)
 
         data = np.frombuffer(receiveBuffer, dtype=np.float32, count=numberOfAcquiredChannels)
         data = np.reshape(data, (frameLength, numberOfAcquiredChannels))
-        self.device.StopAcquisition()
+        device.StopAcquisition()
         return data
 
