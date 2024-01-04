@@ -25,7 +25,7 @@ class Music:
             base_note = Note(current_chord[0].name)
             base_note.octave_down()
             fluidsynth.play_Note(base_note)
-            time.sleep(1) 
+            time.sleep(0.5) 
             # Play highest note in chord
             fluidsynth.play_Note(current_chord[-1])  
             # 50% chance on a bass note
@@ -43,7 +43,7 @@ class Music:
             # 50% chance on a last note
             if fast:
                 fluidsynth.play_Note(current_chord[-2])
-            time.sleep(0.25)
+            time.sleep(0.5)
 
     def generateChords(self):
         return progressions.to_chords(self.progression, self.key)
