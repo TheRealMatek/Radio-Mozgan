@@ -309,7 +309,7 @@ class UnicornBlackThreads():
         self._numberOfAcquiredChannels = None
         self._frameLength = 1
         self._samplefreq = 250.0
-        self._intsampletime = 1.0 / self._samplefreq / 10
+        self._intsampletime = 1 / self._samplefreq / 10
         self.channellabels = 'FZ, C3, CZ, C4, PZ, O1, OZ, O2, AccelX, AccelY, AccelZ, GyroX, GyroY, GyroZ, Battery, Sample'
         
         # activate
